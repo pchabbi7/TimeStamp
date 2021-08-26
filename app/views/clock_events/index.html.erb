@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+ <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag    'resets', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_link_tag    'styles', media: 'all', 'data-turbolinks-track': 'reload' %>
+
+<body>
+<div class="main-container">
+<div class="content">
+<h1 class="mb-20 align-center app-heading">Teachers Timesheet</h1>
+<h4 class="mb-20 welcome-msg">Welcome <%= @current_user.username%></h4>
+<div>
+<form action="/clock_events" method="post">
+  <label for="datetime-local" class="text-label">Clock In/Clock Out:</label>
+  <input type="datetime-local" id="datetime-local" class="mx-20" name="datetime-local" value=<%= Time.now.strftime("%Y-%m-%dT%H:%M")%>
+       min=<%= Time.now.strftime("%Y-%m-%dT00:00")%> max=<% Time.now.strftime("%Y-%m-%dT24:00")%> />
+  <% if @clock_events.first.clocking_in == true && @clock_events != nil && @clock_events.first.logged_out_time != nil%>     
+    <button class="btn btn-primary clock-btn" name="type" type="submit" value="ClockIn">ClockIn</button> 
+  <% else %>
+    <button class="btn btn-primary clock-btn" name="type" type="submit" value="ClockOut">ClockOut</button>
+  <% end %>
+</form>
+</div>
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Sl.No</th>
+      <th>Name</th>
+      <th>Clock In</th>
+      <th>Clock Out</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% i=0 %>
+    <% @clock_events.each do |event| %>
+      <tr>
+      <form action="/clock_events" method="post">
+          <td hidden><input type= "text" name = "user_id" value = <%= event.id%> /></td>
+          <td><%= i + 1 %></td>
+          <td><p type="text" value=<%= event.name %> disabled><%= event.name %></p></td>
+          <td><input disabled type="datetime-local" id=<%="logged-in_" +i.to_s%> name="logged_in" value=<%= event.logged_in_time%>
+        min=<%= Time.now.strftime("%Y-%m-%dT00:00")%> max=<% Time.now.strftime("%Y-%m-%dT24:00")%> ></td>
+          <td><input disabled type="datetime-local" id=<%="logged-out_" +i.to_s%> name="logged_out" value=<%= event.logged_out_time%>
+        min=<%= Time.now.strftime("%Y-%m-%dT00:00")%> max=<% Time.now.strftime("%Y-%m-%dT24:00")%> ></td>
+          <td id=<%= "updateButton" + i.to_s %> hidden><button type="submit" class="btn btn-primary" name="update" id=<%="button_" + i.to_s%> onclick="update(<%= i %>)">Update</button></td>
+     </form> 
+          <td id=<%= "editButton" + i.to_s %>><button type="submit" class="btn btn-primary" name="edit" id=<%="button_" + i.to_s%> onclick="update(<%= i %>)">Edit</button></td>
+      </tr>
+      <% i = i + 1 %>
+    <% end %>
+  </tbody>
+</table>
+</div>
+</div>
+</body>
+</html>
+
+<script>
+function update(cellNo) {
+  var logOut = 'logged-out_' + cellNo;
+  var logIn = 'logged-in_' + cellNo;
+  var button = 'button_' + cellNo;
+  var update = 'updateButton' + cellNo;
+  var edit = 'editButton' + cellNo;
+
+  document.getElementById(logOut).disabled = false
+  document.getElementById(logIn).disabled = false
+  document.getElementById(update).style.display = "block";
+  document.getElementById(edit).style.display = "none";
+}
+</script>
+
+

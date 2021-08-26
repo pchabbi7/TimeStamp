@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_link_tag    'resets', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_link_tag    'styles', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>HiMama</title>
+</head>
+
+<body>
+    <div class="main-container">
+        <!-- header -->
+        <header class="jumbotron subhead" id="overview">
+            <div id="user_nav" class="row">
+                <div class="span4 logo-container">
+                    <a href="#"><img class="logo-img" alt="HiMama Logo"
+                            src="https://s3.amazonaws.com/himama/logo_header.png"></a>
+                </div>
+            </div>
+            <div class="subnav" style="max-height:3px;">
+                <ul class="nav nav-pills">
+                </ul>
+            </div>
+        </header>
+
+        <!-- alert message -->
+        <% if $logged_in == "failed" %>
+        <div class="alert-stick mt-0 alert-alert mb-20"><a class="close">×</a>
+            <h4 class="alert-heading">alert</h4>
+            <div class="mb-5" id="flash_alert">Email or password are incorrect. Please try again.</div>
+        </div>
+        <% end %>
+
+        <!-- log in-->
+        <h2 class="align-center">Log In</h2>
+        <%# <form class="align-center login-form" id="userLogin" action="/new" method="post"> %>
+        <%= form_tag '/login', class: "align-center login-form", id: "userLogin" do %>
+            <div class="row align-center inline-block">
+                <div class="mb-20">
+                    <div class="inline-block align-left user_login">
+                        <label class="control-label" for="user_login">
+                            Username
+                        </label>
+                        <div class="controls">
+                            <input class="string optional input-large" type="text" value="" name="user[login]"
+                                id="user_login">
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-20 align-left password required user_password">
+                    <label class="password required control-label" for="user_password">
+                        <abbr title="required"></abbr> Password &nbsp;
+                    </label>
+                    <div class="controls">
+                        <input class="password required input-large" type="password" name="user[password]"
+                            id="user_password">
+                    </div>
+                </div>
+                
+                <div class="form-actions mt-10">
+                    <%= submit_tag "Log In", :class => "btn btn-success"%>
+                    <%# <input type="submit" name="commit" value="Log In" class="btn btn-success"
+                        data-disable-with="Log In"> %>
+                </div>
+            </div>
+         <%end%>   
+        <%# </form> %>
+    </div>
+</body>
+
+<script> 
+$(‘.close’).click(function(event){
+	event.preventDefault();
+	$(this).parent().remove();
+</script>
+</html>
+
+
+
