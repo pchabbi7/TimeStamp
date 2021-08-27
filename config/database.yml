@@ -81,6 +81,7 @@ test:
 #
 production:
   <<: *default
+   adapter: postgresql
   database: TeachersTimeStamp_production
   username: TeachersTimeStamp
   password: <%= ENV['TEACHERSTIMESTAMP_DATABASE_PASSWORD'] %>
