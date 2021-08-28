@@ -1,10 +1,10 @@
 class ApplicationController < ActionController::Base
-    # include ActionController::Helpers
 
     before_action :authorized
     helper_method :current_user
     helper_method :logged_in?
-# Change the $session_user_id global variable to sessions. 
+
+    #TODO:Change the $session_user_id global variable to sessions. 
     def current_user
        User.find_by(id: $session_user_id)
     end

@@ -9,7 +9,6 @@ class UsersController < ApplicationController
     binding.pry
     @user = User.create(params.require(:user).permit(:username, :password))
     $session_user_id = @user.id
-    # redirect_to '/welcome'
     redirect_to url_for(:controller => :clock_events, :action => :index)
   end
 
