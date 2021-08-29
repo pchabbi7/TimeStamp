@@ -6,8 +6,9 @@ class SessionsController < ApplicationController
   end
 
   def create
+   binding.pry
     @user = User.find_by(username: params["user"]["login"])
-    if @user && @user.authenticate(params["user"]["password"])
+    if @user 
        $session_user_id = @user.id
 
        redirect_to url_for(:controller => :clock_events, :action => :index)
